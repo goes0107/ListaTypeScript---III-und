@@ -18,26 +18,80 @@ export function questao34POO():void{
             this._placa = placa
             this._horaEntrada = horaEntrada
         }
+        
+        getPlaca(): string {
+            return this._placa;
+        }
+
+        getHoraEntrada(): number {
+            return this._horaEntrada;
+        }
 
         abstract calcularValor(horasPermanencia: number): number
     }
 
     class Carro extends Veiculo{
-        constructor(_placa: string, _horaEntrada: number){
-            super(_placa, _horaEntrada)
-        }
-
         calcularValor(horasPermanencia: number): number {
-            let valorTotal: number = horasPermanencia * 5.00
-            console.log(`Valor total a ser pago: ${valorTotal}`)
+            let valorTotalC: number = horasPermanencia * 5.00
+            return valorTotalC
         }
     }
 
     class Moto extends Veiculo{
-        constructor(_placa: string, _horaEntrada: number){
-            super(_placa, _horaEntrada)
+        calcularValor(horasPermanencia: number): number {
+            let valorTotalM: number = horasPermanencia * 3.00
+            return valorTotalM
         }
-
-
     }
+
+    let veiculos: Veiculo[] = []
+    let horas: number[] = []
+
+    let opcao: number = 0
+
+    while (opcao !== 3) {
+        opcao = Number(prompt(`1 - Cadastrar saída de Carro\n2 - Cadastrar saída de Moto\n3 - Encerrar expediente`))
+        
+        switch (opcao) {
+            case 1:
+                let placa = String(prompt('Insira a placa do veículo: '))
+                let horaEntrada = Number(prompt('Insira a hora que você entrou: '))
+                let horasPermanencia = Number(prompt(`Insira a quantidade de horas que você ficou: `))
+
+                let carro: Carro  = new Carro(placa, horaEntrada)
+
+                veiculos.push(carro)
+                horas.push(horasPermanencia)
+                break
+            case 2:
+                placa = String(prompt('Insira a placa do veículo: '))
+                horaEntrada = Number(prompt('Insira a hora que você entrou: '))
+                horasPermanencia = Number(prompt(`Insira a quantidade de horas que você ficou: `))
+
+                let moto: Moto = new Moto(placa, horaEntrada)
+
+                veiculos.push(moto)
+                horas.push(horaEntrada)
+                break
+            case 3:
+                console.log("Encerrando expediente...")
+                break
+            default:
+                console.log(`Opção inválida!!`)
+                break
+        }
+    }
+    
+    let faturamentoTotal: number = 0;
+
+    for (let i = 0; i < veiculos.length; i++) {
+
+        let valor = veiculos[i].calcularValor(horas[i])
+
+        faturamentoTotal += valor
+
+        console.log(`Placa: ${veiculos[i].getPlaca()} | Horas: ${horas[i]} | Valor: R$${valor.toFixed(2)}`)
+    }
+    
+    console.log(`Faturamento total: R$${faturamentoTotal.toFixed(2)}`)
 }
