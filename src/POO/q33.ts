@@ -28,8 +28,8 @@ export function questao33POO():void{
 
         exibir(dias: number): string {
             return `Título: ${this.titulo}
-    Autor: ${this.autor}
-    Dias de atraso: ${dias}`
+            Autor: ${this.autor}
+            Dias de atraso: ${dias}`
         }
     }
 
@@ -41,7 +41,7 @@ export function questao33POO():void{
 
         exibir(dias: number): string {
             return `${super.exibir(dias)}
-    Multa: R$ ${this.calcularPenalidade(dias).toFixed(2)}`
+            Multa: R$ ${this.calcularPenalidade(dias).toFixed(2)}`
         }
     }
 
@@ -49,7 +49,7 @@ export function questao33POO():void{
 
         exibir(dias: number): string {
             return `${super.exibir(dias)}
-    Advertência virtual registrada.`
+            Advertência virtual registrada.`
         }
     }
 
