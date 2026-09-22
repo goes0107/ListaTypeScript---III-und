@@ -54,24 +54,24 @@ export function questao34POO():void{
         
         switch (opcao) {
             case 1:
-                let placa = String(prompt('Insira a placa do veículo: '))
-                let horaEntrada = Number(prompt('Insira a hora que você entrou: '))
-                let horasPermanencia = Number(prompt(`Insira a quantidade de horas que você ficou: `))
+                let placaC = String(prompt('Insira a placa do veículo: '))
+                let horaEntradaC = Number(prompt('Insira a hora que você entrou: '))
+                let horasPermanenciaC = Number(prompt(`Insira a quantidade de horas que você ficou: `))
 
-                let carro: Carro  = new Carro(placa, horaEntrada)
+                let carro: Carro  = new Carro(placaC, horaEntradaC)
 
                 veiculos.push(carro)
-                horas.push(horasPermanencia)
+                horas.push(horasPermanenciaC)
                 break
             case 2:
-                placa = String(prompt('Insira a placa do veículo: '))
-                horaEntrada = Number(prompt('Insira a hora que você entrou: '))
-                horasPermanencia = Number(prompt(`Insira a quantidade de horas que você ficou: `))
+                let placaM = String(prompt('Insira a placa do veículo: '))
+                let horaEntradaM = Number(prompt('Insira a hora que você entrou: '))
+                let horasPermanenciaM = Number(prompt(`Insira a quantidade de horas que você ficou: `))
 
-                let moto: Moto = new Moto(placa, horaEntrada)
+                let moto: Moto = new Moto(placaM, horaEntradaM)
 
                 veiculos.push(moto)
-                horas.push(horaEntrada)
+                horas.push(horasPermanenciaM)
                 break
             case 3:
                 console.log("Encerrando expediente...")
