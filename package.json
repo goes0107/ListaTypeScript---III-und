@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Repositório da lista de programação III Unidade",
   "main": "index.js",
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc && node ./dist/index.js"
@@ -18,8 +21,5 @@
   "bugs": {
     "url": "https://github.com/goes0107/ListaTypeScript---III-und/issues"
   },
-  "homepage": "https://github.com/goes0107/ListaTypeScript---III-und#readme",
-  "devDependencies": {
-    "typescript": "^7.0.2"
-  }
+  "homepage": "https://github.com/goes0107/ListaTypeScript---III-und#readme"
 }
