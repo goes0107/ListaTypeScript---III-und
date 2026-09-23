@@ -85,7 +85,6 @@ export function questao34POO():void{
     let faturamentoTotal: number = 0;
 
     for (let i = 0; i < veiculos.length; i++) {
-
         let valor = veiculos[i].calcularValor(horas[i])
 
         faturamentoTotal += valor

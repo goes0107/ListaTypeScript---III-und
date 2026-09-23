@@ -20,15 +20,14 @@ export function questao35POO():void{
         }
         
         get nome(): string {
-            return this.nome
+            return this._nome
         }
         
         get numeroCartaoSUS(): number{
-            return this.numeroCartaoSUS
+            return this._numeroCartaoSUS
         }
 
-        exibirFicha():void {
-        }
+        exibirFicha():void {}
     }
 
     class PacienteComum extends Paciente{
@@ -46,7 +45,7 @@ export function questao35POO():void{
         }
 
         get tipo(): string{
-            return this.tipo
+            return this._tipo
         }
 
         exibirFicha(): void {
@@ -56,9 +55,47 @@ export function questao35POO():void{
 
     let filaPacientes: Paciente [] = []
 
-    let op: string = ''
+    let op: number = 0
 
-    while (op.toLowerCase() != `n`){
-        let tipoPaciente: number = prompt
+    while (op != 2){
+        let tipoPaciente: number = Number(prompt(`Qual é o tipo do paciente (1 - Paciente comum | 2 - Paciente prioritário): `))
+
+        switch (tipoPaciente) {
+            case 1:
+                let nomePC: string = String(prompt(`Insira o nome do paciente: `))
+                let numeroCartaoSUSPC: number = Number(prompt(`Insira o número do cartão do SUS: `))
+
+                let pacienteComum: PacienteComum = new PacienteComum(nomePC, numeroCartaoSUSPC)
+
+                filaPacientes.push(pacienteComum)
+                break
+        
+            case 2:
+                let nomePP: string = String(prompt(`Insira o nome do pacinte: `))
+                let numeroCartaoSUSPP: number = Number(prompt(`Insira o número do cartão do SUS: `))
+                let tipoPP: string = String(prompt(`Insira o tipo do paciente: `))
+
+                let pacientePrioritario: PacientePrioritario = new PacientePrioritario(nomePP, numeroCartaoSUSPP, tipoPP)
+                
+                filaPacientes.push(pacientePrioritario)
+                break
+            default:
+                alert(`Insira uma opção válida!`)
+                break
+        }
+
+        op = Number(prompt(`Deseja adcionar mais algum paciente? (1 - Sim | 2 - Não): `))
     }
+
+    let totalPrioritarios: number = 0
+
+    for (let paciente of filaPacientes) {
+        paciente.exibirFicha()
+
+        if (paciente instanceof PacientePrioritario){
+            totalPrioritarios++
+        }
+    }
+
+    alert(`Total de pacientes prioritários: ${totalPrioritarios}`)
 }
