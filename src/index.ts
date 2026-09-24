@@ -55,6 +55,7 @@ import { questao32POO } from "./POO/q32.js";
 import { questao33POO } from "./POO/q33.js";
 import { questao34POO } from "./POO/q34.js";
 import { questao35POO } from "./POO/q35.js";
+import { questao36POO } from "./POO/q36.js";
 
 document.getElementById("btnEx1.poo")?.addEventListener("click", questao1POO)
 document.getElementById("btnEx2.poo")?.addEventListener("click", questao2POO)
@@ -91,3 +92,4 @@ document.getElementById("btnEx32.poo")?.addEventListener("click", questao32POO)
 document.getElementById("btnEx33.poo")?.addEventListener("click", questao33POO)
 document.getElementById("btnEx34.poo")?.addEventListener("click", questao34POO)
 document.getElementById("btnEx35.poo")?.addEventListener("click", questao35POO)
+document.getElementById("btnEx36.poo")?.addEventListener("click", questao36POO)
