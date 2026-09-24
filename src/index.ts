@@ -44,7 +44,7 @@ import { questao42POO } from "./POO/q42.js";
 import { questao43POO } from "./POO/q43.js";
 import { questao44POO } from "./POO/q44.js";
 import { questao45POO } from "./POO/q45.js";
-// import { questao46POO } from "./POO/q46.js";
+import { questao46POO } from "./POO/q46.js";
 // import { questao47POO } from "./POO/q47.js";
 // import { questao48POO } from "./POO/q48.js";
 // import { questao49POO } from "./POO/q49.js";
@@ -95,7 +95,7 @@ document.getElementById("btnEx42.poo")?.addEventListener("click", questao42POO)
 document.getElementById("btnEx43.poo")?.addEventListener("click", questao43POO)
 document.getElementById("btnEx44.poo")?.addEventListener("click", questao44POO)
 document.getElementById("btnEx45.poo")?.addEventListener("click", questao45POO)
-// document.getElementById("btnEx46.poo")?.addEventListener("click", questao46POO)
+document.getElementById("btnEx46.poo")?.addEventListener("click", questao46POO)
 // document.getElementById("btnEx47.poo")?.addEventListener("click", questao47POO)
 // document.getElementById("btnEx48.poo")?.addEventListener("click", questao48POO)
 // document.getElementById("btnEx49.poo")?.addEventListener("click", questao49POO)
