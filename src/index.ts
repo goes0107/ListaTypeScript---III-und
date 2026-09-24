@@ -1,24 +1,3 @@
-// QUESTÕES ARRAY
-import { questao1array } from "./Array/questão1.js";
-import { questao2array } from "./Array/questão2.js";
-import { questao3array } from "./Array/questão3.js";
-import { questao4array } from "./Array/questão4.js";
-import { questao5array } from "./Array/questão5.js";
-import { questao6array } from "./Array/questão6.js";
-import { questao7array } from "./Array/questão7.js";
-import { questao8array } from "./Array/questão8.js";
-import { questao9array } from "./Array/questão9.js";
-
-document.getElementById("btnEx1.arr")?.addEventListener("click", questao1array)
-document.getElementById("btnEx2.arr")?.addEventListener("click", questao2array)
-document.getElementById("btnEx3.arr")?.addEventListener("click", questao3array)
-document.getElementById("btnEx4.arr")?.addEventListener("click", questao4array)
-document.getElementById("btnEx5.arr")?.addEventListener("click", questao5array)
-document.getElementById("btnEx6.arr")?.addEventListener("click", questao6array)
-document.getElementById("btnEx7.arr")?.addEventListener("click", questao7array)
-document.getElementById("btnEx8.arr")?.addEventListener("click", questao8array)
-document.getElementById("btnEx9.arr")?.addEventListener("click", questao9array)
-
 // QUESTÕES POO
 import { questao1POO } from "./POO/q1.js";
 import { questao2POO } from "./POO/q2.js";
@@ -58,6 +37,18 @@ import { questao35POO } from "./POO/q35.js";
 import { questao36POO } from "./POO/q36.js";
 import { questao37POO } from "./POO/q37.js";
 import { questao38POO } from "./POO/q38.js";
+import { questao39POO } from "./POO/q39.js";
+// import { questao40POO } from "./POO/q40.js";
+// import { questao41POO } from "./POO/q41.js";
+// import { questao42POO } from "./POO/q42.js";
+// import { questao43POO } from "./POO/q43.js";
+// import { questao44POO } from "./POO/q44.js";
+// import { questao45POO } from "./POO/q45.js";
+// import { questao46POO } from "./POO/q46.js";
+// import { questao47POO } from "./POO/q47.js";
+// import { questao48POO } from "./POO/q48.js";
+// import { questao49POO } from "./POO/q49.js";
+// import { questao50POO } from "./POO/q50.js";
 
 document.getElementById("btnEx1.poo")?.addEventListener("click", questao1POO)
 document.getElementById("btnEx2.poo")?.addEventListener("click", questao2POO)
@@ -97,3 +88,15 @@ document.getElementById("btnEx35.poo")?.addEventListener("click", questao35POO)
 document.getElementById("btnEx36.poo")?.addEventListener("click", questao36POO)
 document.getElementById("btnEx37.poo")?.addEventListener("click", questao37POO)
 document.getElementById("btnEx38.poo")?.addEventListener("click", questao38POO)
+document.getElementById("btnEx39.poo")?.addEventListener("click", questao39POO)
+// document.getElementById("btnEx40.poo")?.addEventListener("click", questao40POO)
+// document.getElementById("btnEx41.poo")?.addEventListener("click", questao41POO)
+// document.getElementById("btnEx42.poo")?.addEventListener("click", questao42POO)
+// document.getElementById("btnEx43.poo")?.addEventListener("click", questao43POO)
+// document.getElementById("btnEx44.poo")?.addEventListener("click", questao44POO)
+// document.getElementById("btnEx45.poo")?.addEventListener("click", questao45POO)
+// document.getElementById("btnEx46.poo")?.addEventListener("click", questao46POO)
+// document.getElementById("btnEx47.poo")?.addEventListener("click", questao47POO)
+// document.getElementById("btnEx48.poo")?.addEventListener("click", questao48POO)
+// document.getElementById("btnEx49.poo")?.addEventListener("click", questao49POO)
+// document.getElementById("btnEx50.poo")?.addEventListener("click", questao50POO)
