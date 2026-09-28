@@ -1,90 +1,106 @@
 // 26. Simulador de Contas Bancárias Cooperativas
+// A conta possui nome do titular e saldo protegido. Conta Corrente cobra R$ 2,00 por saque e Conta
+// Poupança possui rendimento de 1%. O sistema utiliza um menu repetitivo para movimentar a conta.
 
-// Uma cooperativa de crédito local precisa de um protótipo para gerenciar contas de clientes. A conta
-// deve ter o nome do titular e o saldo protegido, acessível apenas por métodos de depósito e saque.
-// Existem dois tipos de contas: a Conta Corrente (que cobra uma taxa de R$ 2,00 a cada saque) e a
-// Conta Poupança (que possui um método de rendimento que acrescenta 1% ao saldo atual). O
-// programa deve interagir com o usuário perguntando qual conta ele deseja movimentar, solicitando
-// valores para depósito e saque através de um menu repetitivo até que ele decida sair, exibindo o saldo
-// atualizado de forma protegida após cada operação.
+export function questao26POO(): void {
 
-export function questao26POO():void{
     class Conta {
-        nome: string
-        private saldo: number
+        private _nome: string
+        private _saldo: number
 
         constructor(nome: string, saldo: number) {
-            this.nome = nome
-            this.saldo = saldo
+            this._nome = nome
+            this._saldo = saldo
         }
 
-        getSaldo(): number {
-            return this.saldo
+        get nome(): string {
+            return this._nome
         }
 
-        depositar(valor: number) {
-            this.saldo += valor
+        get saldo(): number {
+            return this._saldo
         }
 
-        sacar(valor: number) {
-            if (valor <= this.saldo) {
-                this.saldo -= valor
-            } else {
-                console.log("Saldo insuficiente.")
+        depositar(valor: number): void {
+            if (valor > 0) {
+                this._saldo += valor
+            }
+            else {
+                alert(`Valor inválido!`)
+            }
+        }
+
+        sacar(valor: number): void {
+            if (valor > 0 && valor <= this._saldo) {
+                this._saldo -= valor
+            }
+            else {
+                alert(`Saldo insuficiente ou valor inválido!`)
             }
         }
     }
 
     class ContaCorrente extends Conta {
-        sacar(valor: number) {
-            super.sacar(valor + 2)
+        sacar(valor: number): void {
+            let valorComTaxa: number = valor + 2
+            super.sacar(valorComTaxa)
         }
     }
 
     class ContaPoupanca extends Conta {
-        render() {
-            this.depositar(this.getSaldo() * 0.01)
+        render(): void {
+            let rendimento: number = this.saldo * 0.01
+            this.depositar(rendimento)
         }
     }
 
-    let nome: string = String(prompt("Nome do titular: "))
-    let saldo: number = Number(prompt("Saldo inicial: "))
-
-    let tipoConta: number = Number(prompt('Digite o tipo de tarefa (1-corrente/2-poupança): '))
+    let nome: string = String(prompt(`Insira o nome do titular: `))
+    let saldoInicial: number = Number(prompt(`Insira o saldo inicial: `))
+    let tipoConta: number = Number(prompt(`Qual é o tipo da conta? (1 - Conta Corrente | 2 - Conta Poupança): `))
 
     let conta: Conta
 
     if (tipoConta == 1) {
-        conta = new ContaCorrente(nome, saldo)
-    } else {
-        conta = new ContaPoupanca(nome, saldo)
+        conta = new ContaCorrente(nome, saldoInicial)
+    }
+    else {
+        conta = new ContaPoupanca(nome, saldoInicial)
     }
 
-    let opcao = -1
+    let op: number = 0
 
-    while (opcao != 0) {
-        opcao = Number(prompt("Escolha: 0 - Sair \n 1 - Depositar \n 2 - Sacar \n 3 - Render (apenas poupança) \n 4 - Ver saldo"))
+    while (op != 5) {
+        op = Number(prompt(`Escolha uma opção: (1 - Depositar | 2 - Sacar | 3 - Render | 4 - Ver saldo | 5 - Sair): `))
 
-        if (opcao == 1) {
-            let valor = Number(prompt("Valor: "))
-            conta.depositar(valor)
-        }
-
-        if (opcao == 2) {
-            let valor = Number(prompt("Valor: "))
-            conta.sacar(valor)
-        }
-
-        if (opcao == 3) {
-            if (conta instanceof ContaPoupanca) {
-                conta.render()
-            } else {
-                console.log("Apenas conta poupança possui rendimento.")
-            }
-        }
-
-        if (opcao == 4) {
-            console.log("Saldo: R$", conta.getSaldo().toFixed(2))
+        switch (op) {
+            case 1:
+                let valorDeposito: number = Number(prompt(`Insira o valor do depósito: `))
+                conta.depositar(valorDeposito)
+                alert(`Saldo atualizado: R$${conta.saldo.toFixed(2)}`)
+                break
+            case 2:
+                let valorSaque: number = Number(prompt(`Insira o valor do saque: `))
+                conta.sacar(valorSaque)
+                alert(`Saldo atualizado: R$${conta.saldo.toFixed(2)}`)
+                break
+            case 3:
+                if (conta instanceof ContaPoupanca) {
+                    conta.render()
+                    alert(`Rendimento aplicado! | Saldo: R$${conta.saldo.toFixed(2)}`)
+                }
+                else {
+                    alert(`Apenas a conta poupança possui rendimento!`)
+                }
+                break
+            case 4:
+                alert(`Titular: ${conta.nome} | Saldo: R$${conta.saldo.toFixed(2)}`)
+                break
+            case 5:
+                alert(`Programa encerrado!`)
+                break
+            default:
+                alert(`Insira uma opção válida!`)
+                break
         }
     }
 }
