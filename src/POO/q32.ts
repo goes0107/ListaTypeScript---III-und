@@ -1,87 +1,94 @@
-// 32. Desenvolva o motor de pontuação de um jogo arcade. A superclasse Jogador possui os atributos privados nickname
-// e pontuacao (iniciada em zero), sendo pontuacao acessível somente pelo método realizarMissao() — nunca
-// diretamente. JogadorComum ganha 100 pontos por missão. JogadorPremium sobrescreve realizarMissao() e
-// acumula 150 pontos (100 + 50% de bônus). O programa solicita ao usuário o tipo e o apelido de cada jogador. A
-// cada rodada, o usuário informa qual jogador realizou uma missão. Ao final do torneio, o programa exibe a
-// classificação completa e destaca quem ultrapassou 1.000 pontos.
-// Requisitos mínimos:
-// • pontuacao privada: modificada apenas por realizarMissao(), nunca diretamente.
-// • JogadorPremium sobrescreve realizarMissao() com bônus de 50%.
-// • Getter getPontuacao() para leitura controlada.
-// • Loop de rodadas com condição de parada por comando do usuário.
-// • Exibição final com classificação e destaque para campeões.
+// 32. Motor de Pontuação de um Jogo Arcade
+// Jogador inicia com pontuação zero. JogadorComum recebe 100 pontos por missão e JogadorPremium
+// recebe 150 pontos. O sistema permite cadastrar jogadores, registrar missões e exibir a classificação.
 
-export function questao32POO():void{
+export function questao32POO(): void {
+
     class Jogador {
-        private nickname: string
-        protected pontuacao: number
+        private _nickname: string
+        protected _pontuacao: number
 
         constructor(nickname: string) {
-            this.nickname = nickname
-            this.pontuacao = 0
+            this._nickname = nickname
+            this._pontuacao = 0
         }
 
-        getNickname(): string {
-            return this.nickname
+        get nickname(): string {
+            return this._nickname
         }
 
-        getPontuacao(): number {
-            return this.pontuacao
+        get pontuacao(): number {
+            return this._pontuacao
         }
 
-        realizarMissao() {
-            this.pontuacao += 100
+        realizarMissao(): void {
+            this._pontuacao += 100
         }
     }
 
     class JogadorPremium extends Jogador {
-        realizarMissao() {
-            this.pontuacao += 150
+        realizarMissao(): void {
+            this._pontuacao += 150
         }
     }
 
     let jogadores: Jogador[] = []
+    let op: number = 0
 
-    let resposta = "s"
+    while (op != 3) {
+        op = Number(prompt(`Escolha uma opção: (1 - Cadastrar jogador | 2 - Registrar missão | 3 - Encerrar torneio): `))
 
-    while (resposta != "n") {
+        switch (op) {
+            case 1:
+                let tipo: number = Number(prompt(`Qual é o tipo do jogador? (1 - Comum | 2 - Premium): `))
+                let nickname: string = String(prompt(`Insira o nickname do jogador: `))
 
-        let tipo = Number(prompt("Tipo (1-Comum / 2-Premium): "))
-        let nickname: string = String(prompt("Nickname: "))
+                if (tipo == 1) {
+                    let jogador: Jogador = new Jogador(nickname)
+                    jogadores.push(jogador)
+                }
+                else if (tipo == 2) {
+                    let jogadorPremium: JogadorPremium = new JogadorPremium(nickname)
+                    jogadores.push(jogadorPremium)
+                }
+                else {
+                    alert(`Insira uma opção válida!`)
+                }
+                break
 
-        if (tipo == 1) {
-            jogadores.push(new Jogador(nickname))
+            case 2:
+                let nomeBusca: string = String(prompt(`Qual jogador realizou a missão? `))
+                let encontrado: boolean = false
+
+                for (let jogador of jogadores) {
+                    if (jogador.nickname == nomeBusca) {
+                        jogador.realizarMissao()
+                        encontrado = true
+                        alert(`Missão registrada para ${jogador.nickname}!`)
+                    }
+                }
+
+                if (encontrado == false) {
+                    alert(`Jogador não encontrado!`)
+                }
+                break
+
+            case 3:
+                alert(`Torneio encerrado!`)
+                break
+
+            default:
+                alert(`Insira uma opção válida!`)
+                break
         }
-
-        if (tipo == 2) {
-            jogadores.push(new JogadorPremium(nickname))
-        }
-
-        resposta = String(prompt("Cadastrar outro jogador? (s/n): ")).toLowerCase()
     }
-
-    resposta = "s"
-
-    while (resposta != "n") {
-
-        let nome = prompt("Quem realizou a missão? ")
-
-        for (let jogador of jogadores) {
-            if (jogador.getNickname() == nome) {
-                jogador.realizarMissao()
-            }
-        }
-
-        resposta = String(prompt("Continuar outra rodada? (s/n): ")).toLowerCase()
-    }
-
-    console.log("CLASSIFICAÇÃO")
 
     for (let jogador of jogadores) {
-        console.log(`${jogador.getNickname()} - ${jogador.getPontuacao()} pontos`)
-
-        if (jogador.getPontuacao() > 1000) {
-            console.log("Campeão!")
+        if (jogador.pontuacao > 1000) {
+            alert(`Jogador: ${jogador.nickname} | Pontuação: ${jogador.pontuacao} | Campeão!`)
+        }
+        else {
+            alert(`Jogador: ${jogador.nickname} | Pontuação: ${jogador.pontuacao}`)
         }
     }
 }
