@@ -1,96 +1,104 @@
 // 29. Catálogo de Biblioteca com Penalidades de Atraso
-// Escreva um programa para gerenciar os empréstimos da biblioteca do campus. Cada obra possui título
-// e autor. As obras dividem-se em Livros Físicos e Artigos Científicos Digitais. Os Livros Físicos
-// possuem um método para calcular a multa por atraso (R$ 2,50 por dia de atraso), enquanto os Artigos
-// Digitais não geram multa física, mas registram uma advertência virtual ao usuário. O programa deve
-// solicitar continuamente que o bibliotecário informe o título da obra emprestada e a quantidade de dias
-// de atraso na devolução. Todos os registros devem ser salvos em uma lista e, ao encerrar, o sistema
-// exibe o valor total de multas que a biblioteca deve recolher.
+// Livros Físicos possuem multa de R$ 2,50 por dia de atraso. Artigos Digitais não geram multa,
+// mas registram uma advertência virtual. Ao final, o sistema exibe o total de multas.
 
-export function questao29POO():void{
+export function questao29POO(): void {
+
     class Obra {
-        titulo: string
-        autor: string
+        private _titulo: string
+        private _autor: string
 
         constructor(titulo: string, autor: string) {
-            this.titulo = titulo
-            this.autor = autor
+            this._titulo = titulo
+            this._autor = autor
+        }
+
+        get titulo(): string {
+            return this._titulo
+        }
+
+        get autor(): string {
+            return this._autor
         }
 
         calcularPenalidade(dias: number): number {
             return 0
         }
 
-        exibir(dias: number): string {
-            return `Título: ${this.titulo}
-    Autor: ${this.autor}
-    Dias de atraso: ${dias}`
+        exibir(dias: number): void {
+            alert(`Título: ${this.titulo} | Autor: ${this.autor} | Dias de atraso: ${dias}`)
         }
     }
 
     class LivroFisico extends Obra {
-
         calcularPenalidade(dias: number): number {
-            return dias * 2.5
+            let multa: number = dias * 2.5
+            return multa
         }
 
-        exibir(dias: number): string {
-            return `${super.exibir(dias)}
-    Multa: R$ ${this.calcularPenalidade(dias).toFixed(2)}`
+        exibir(dias: number): void {
+            alert(`Título: ${this.titulo} | Autor: ${this.autor} | Dias de atraso: ${dias} | Multa: R$${this.calcularPenalidade(dias).toFixed(2)}`)
         }
     }
 
     class ArtigoDigital extends Obra {
-
-        exibir(dias: number): string {
-            return `${super.exibir(dias)}
-    Advertência virtual registrada.`
+        exibir(dias: number): void {
+            alert(`Título: ${this.titulo} | Autor: ${this.autor} | Dias de atraso: ${dias} | Advertência virtual registrada.`)
         }
     }
 
     class Emprestimo {
-        obra: Obra
-        dias: number
+        private _obra: Obra
+        private _dias: number
 
         constructor(obra: Obra, dias: number) {
-            this.obra = obra
-            this.dias = dias
+            this._obra = obra
+            this._dias = dias
+        }
+
+        get obra(): Obra {
+            return this._obra
+        }
+
+        get dias(): number {
+            return this._dias
         }
     }
 
     let emprestimos: Emprestimo[] = []
+    let op: number = 0
 
-    let resposta = "s"
-    let totalMultas = 0
+    while (op != 2) {
+        let tipo: number = Number(prompt(`Qual é o tipo da obra? (1 - Livro físico | 2 - Artigo digital): `))
+        let titulo: string = String(prompt(`Insira o título: `))
+        let autor: string = String(prompt(`Insira o autor: `))
+        let dias: number = Number(prompt(`Insira os dias de atraso: `))
 
-    while (resposta != "n") {
-
-        let tipo = Number(prompt("Tipo (1-Livro / 2-Artigo): "))
-
-        let titulo: string = String(prompt("Título: "))
-        let autor: string = String(prompt("Autor: "))
-        let dias: number = Number(prompt("Dias de atraso: "))
-
-        if (tipo == 1) {
-            let livro = new LivroFisico(titulo, autor)
-            emprestimos.push(new Emprestimo(livro, dias))
+        switch (tipo) {
+            case 1:
+                let livro: LivroFisico = new LivroFisico(titulo, autor)
+                let emprestimoLivro: Emprestimo = new Emprestimo(livro, dias)
+                emprestimos.push(emprestimoLivro)
+                break
+            case 2:
+                let artigo: ArtigoDigital = new ArtigoDigital(titulo, autor)
+                let emprestimoArtigo: Emprestimo = new Emprestimo(artigo, dias)
+                emprestimos.push(emprestimoArtigo)
+                break
+            default:
+                alert(`Insira uma opção válida!`)
+                break
         }
 
-        if (tipo == 2) {
-            let artigo = new ArtigoDigital(titulo, autor)
-            emprestimos.push(new Emprestimo(artigo, dias))
-        }
-
-        resposta = String(prompt("Deseja cadastrar outro empréstimo? (s/n): ")).toLowerCase()
+        op = Number(prompt(`Deseja cadastrar outro empréstimo? (1 - Sim | 2 - Não): `))
     }
 
-    console.log("REGISTROS")
+    let totalMultas: number = 0
 
     for (let item of emprestimos) {
-        console.log(item.obra.exibir(item.dias))
-
+        item.obra.exibir(item.dias)
         totalMultas += item.obra.calcularPenalidade(item.dias)
     }
 
-    console.log(`Total de multas: R$ ${totalMultas.toFixed(2)}`)
+    alert(`Total de multas: R$${totalMultas.toFixed(2)}`)
 }
