@@ -1,87 +1,105 @@
 // 24. Gerenciador de Tarefas e Produtividade Acadêmica
-// Para ajudar os alunos a não perderem prazos, monte um gerenciador de tarefas. Uma tarefa genérica
-// possui uma descrição e o status de concluída (booleano). Uma Tarefa Acadêmica inclui o nome da
-// disciplina associada, enquanto uma Tarefa Pessoal inclui o nível de prioridade. O programa deve abrir
-// um menu para o estudante inserir suas tarefas diárias. O sistema armazena tudo em um array
-// unificado. Através da interação, o usuário pode escolher marcar uma tarefa como concluída ou listar
-// apenas as tarefas acadêmicas pendentes, utilizando a lógica de filtragem de propriedades dos objetos
-// contidos na lista.
+// Uma tarefa possui descrição e status de concluída. Uma Tarefa Acadêmica inclui a disciplina e uma
+// Tarefa Pessoal inclui a prioridade. O programa permite cadastrar, concluir e listar tarefas pendentes.
 
-export function questao24POO():void{
+export function questao24POO(): void {
+
     class Tarefa {
-        private descricao: string
-        private concluida: boolean
+        private _descricao: string
+        private _concluida: boolean
 
         constructor(descricao: string) {
-            this.descricao = descricao
-            this.concluida = false
+            this._descricao = descricao
+            this._concluida = false
         }
 
-        public getDescricao(): string {
-            return this.descricao
+        get descricao(): string {
+            return this._descricao
         }
 
-        public isConcluida(): boolean {
-            return this.concluida
+        get concluida(): boolean {
+            return this._concluida
         }
 
-        public marcarConcluida(): void {
-            this.concluida = true
+        marcarConcluida(): void {
+            this._concluida = true
         }
-
     }
 
     class TarefaAcademica extends Tarefa {
-        private disciplina: string
-        
+        private _disciplina: string
+
         constructor(descricao: string, disciplina: string) {
             super(descricao)
-            this.disciplina = disciplina
+            this._disciplina = disciplina
         }
 
-        public getDisciplina(): string {
-            return this.disciplina
+        get disciplina(): string {
+            return this._disciplina
         }
     }
 
     class TarefaPessoal extends Tarefa {
-        private prioridade: number
+        private _prioridade: number
 
         constructor(descricao: string, prioridade: number) {
             super(descricao)
-            this.prioridade = prioridade
+            this._prioridade = prioridade
         }
 
-        public getPrioridade(): number {
-            return this.prioridade
+        get prioridade(): number {
+            return this._prioridade
         }
     }
 
     let tarefas: Tarefa[] = []
+    let op: number = 0
 
-    let resposta: string = ''
+    while (op != 5) {
+        op = Number(prompt(`Escolha uma opção: (1 - Cadastrar tarefa acadêmica | 2 - Cadastrar tarefa pessoal | 3 - Marcar tarefa como concluída | 4 - Listar tarefas acadêmicas pendentes | 5 - Sair): `))
 
-    while (resposta.toLowerCase() !== 'n') {
-        let tipoTarefa: number = Number(prompt('Digite o tipo de tarefa (1-acadêmica/2-pessoal): '))
-        let descricao: string = String(prompt('Insira a descrição da tarefa: '))
+        switch (op) {
+            case 1:
+                let descricaoTA: string = String(prompt(`Insira a descrição da tarefa: `))
+                let disciplina: string = String(prompt(`Insira a disciplina: `))
+                let tarefaAcademica: TarefaAcademica = new TarefaAcademica(descricaoTA, disciplina)
+                tarefas.push(tarefaAcademica)
+                break
+            case 2:
+                let descricaoTP: string = String(prompt(`Insira a descrição da tarefa: `))
+                let prioridade: number = Number(prompt(`Insira a prioridade (1 - Baixa | 2 - Média | 3 - Alta): `))
+                let tarefaPessoal: TarefaPessoal = new TarefaPessoal(descricaoTP, prioridade)
+                tarefas.push(tarefaPessoal)
+                break
+            case 3:
+                let descricaoBusca: string = String(prompt(`Insira a descrição da tarefa concluída: `))
+                let encontrada: boolean = false
 
-        if (tipoTarefa === 1) {
-            let disciplina: string = String(prompt('Insira o nome da disciplina: '))
-            let newTarefaAcademica: TarefaAcademica = new TarefaAcademica(descricao, disciplina)
-            tarefas.push(newTarefaAcademica)
-        } else if (tipoTarefa === 2) {
-            let prioridade: number = Number(prompt('Insira o nível de prioridade (1-baixa/2-média/3-alta): '))
-            let newTarefaPessoal: TarefaPessoal = new TarefaPessoal(descricao, prioridade)
-            tarefas.push(newTarefaPessoal)
-        }
+                for (let tarefa of tarefas) {
+                    if (tarefa.descricao == descricaoBusca) {
+                        tarefa.marcarConcluida()
+                        encontrada = true
+                        alert(`Tarefa marcada como concluída!`)
+                    }
+                }
 
-        resposta = String(prompt('Deseja adicionar outra tarefa? (s/n): ')).toLowerCase()
-    }
-
-    console.log('Tarefas Acadêmicas Pendentes:')
-    for (let tarefa of tarefas) {
-        if (tarefa instanceof TarefaAcademica && !tarefa.isConcluida()) {
-            console.log(`Descrição: ${tarefa.getDescricao()}, Disciplina: ${tarefa.getDisciplina()}`)
+                if (encontrada == false) {
+                    alert(`Tarefa não encontrada!`)
+                }
+                break
+            case 4:
+                for (let tarefa of tarefas) {
+                    if (tarefa instanceof TarefaAcademica && tarefa.concluida == false) {
+                        alert(`Descrição: ${tarefa.descricao} | Disciplina: ${tarefa.disciplina}`)
+                    }
+                }
+                break
+            case 5:
+                alert(`Programa encerrado!`)
+                break
+            default:
+                alert(`Insira uma opção válida!`)
+                break
         }
     }
 }
