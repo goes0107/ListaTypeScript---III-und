@@ -1,86 +1,103 @@
 // 28. Gestão de Diárias de um Hotel Fazenda
-// Um hotel fazenda em Tobias Barreto quer automatizar o cálculo de suas hospedagens. Uma
-// acomodação básica possui o número do quarto e o preço base da diária. A Suíte Master possui um
-// valor adicional fixo referente ao uso da hidromassagem. O sistema deve interagir com o recepcionista
-// perguntando os dados dos quartos e quantos dias o hóspede ficou alojado. O programa calcula o valor
-// total devido de cada quarto inserido em uma lista de check-outs. Ao final, utilizando métodos de
-// busca ou filtragem, o sistema deve exibir apenas os quartos que faturaram mais de R$ 1.000,00 na
-// temporada.
+// Uma acomodação básica possui número do quarto e preço da diária. A Suíte Master possui um valor
+// adicional fixo da hidromassagem. Ao final, o sistema mostra apenas os quartos que faturaram mais
+// de R$ 1.000,00.
 
-export function questao28POO():void{
+export function questao28POO(): void {
+
     class Acomodacao {
-        private numeroQuarto: number
-        private precoDiaria: number
+        private _numeroQuarto: number
+        private _precoDiaria: number
 
         constructor(numeroQuarto: number, precoDiaria: number) {
-            this.numeroQuarto = numeroQuarto
-            this.precoDiaria = precoDiaria
+            this._numeroQuarto = numeroQuarto
+            this._precoDiaria = precoDiaria
+        }
+
+        get numeroQuarto(): number {
+            return this._numeroQuarto
+        }
+
+        get precoDiaria(): number {
+            return this._precoDiaria
         }
 
         calcularTotal(dias: number): number {
-            return this.precoDiaria * dias
-        }
-
-        exibir(dias: number): string {
-            return `Quarto: ${this.numeroQuarto} Valor Total: R$ ${this.calcularTotal(dias).toFixed(2)}`
+            let valorTotal: number = this.precoDiaria * dias
+            return valorTotal
         }
     }
 
     class SuiteMaster extends Acomodacao {
-        private adicional: number
+        private _adicional: number
 
         constructor(numeroQuarto: number, precoDiaria: number, adicional: number) {
             super(numeroQuarto, precoDiaria)
-            this.adicional = adicional
+            this._adicional = adicional
+        }
+
+        get adicional(): number {
+            return this._adicional
         }
 
         calcularTotal(dias: number): number {
-            return super.calcularTotal(dias) + this.adicional
+            let valorTotal: number = (this.precoDiaria * dias) + this.adicional
+            return valorTotal
         }
     }
 
     class CheckOut {
-        acomodacao: Acomodacao
-        dias: number
+        private _acomodacao: Acomodacao
+        private _dias: number
 
         constructor(acomodacao: Acomodacao, dias: number) {
-            this.acomodacao = acomodacao
-            this.dias = dias
+            this._acomodacao = acomodacao
+            this._dias = dias
+        }
+
+        get acomodacao(): Acomodacao {
+            return this._acomodacao
+        }
+
+        get dias(): number {
+            return this._dias
         }
     }
 
     let checkouts: CheckOut[] = []
+    let op: number = 0
 
-    let resposta = "s"
+    while (op != 2) {
+        let tipo: number = Number(prompt(`Qual é o tipo da acomodação? (1 - Básica | 2 - Suíte Master): `))
+        let numeroQuarto: number = Number(prompt(`Insira o número do quarto: `))
+        let precoDiaria: number = Number(prompt(`Insira o preço da diária: `))
+        let dias: number = Number(prompt(`Insira a quantidade de dias hospedado: `))
 
-    while (resposta != "n") {
-
-        let tipo = Number(prompt("Tipo (1-Básica / 2-Suíte Master): "))
-
-        let quarto = Number(prompt("Número do quarto: "))
-        let diaria = Number(prompt("Preço da diária: "))
-        let dias = Number(prompt("Dias hospedado: "))
-
-        if (tipo == 1) {
-            let acomodacao = new Acomodacao(quarto, diaria)
-            checkouts.push(new CheckOut(acomodacao, dias))
+        switch (tipo) {
+            case 1:
+                let acomodacao: Acomodacao = new Acomodacao(numeroQuarto, precoDiaria)
+                let checkOut: CheckOut = new CheckOut(acomodacao, dias)
+                checkouts.push(checkOut)
+                break
+            case 2:
+                let adicional: number = Number(prompt(`Insira o valor adicional da hidromassagem: `))
+                let suiteMaster: SuiteMaster = new SuiteMaster(numeroQuarto, precoDiaria, adicional)
+                let checkOutSuite: CheckOut = new CheckOut(suiteMaster, dias)
+                checkouts.push(checkOutSuite)
+                break
+            default:
+                alert(`Insira uma opção válida!`)
+                break
         }
 
-        if (tipo == 2) {
-            let adicional = Number(prompt("Valor adicional da hidromassagem: "))
-
-            let acomodacao = new SuiteMaster(quarto, diaria, adicional)
-            checkouts.push(new CheckOut(acomodacao, dias))
-        }
-
-        resposta = String(prompt("Deseja cadastrar outro quarto? (s/n): ")).toLowerCase()
+        op = Number(prompt(`Deseja cadastrar outro quarto? (1 - Sim | 2 - Não): `))
     }
 
-    console.log("Quartos que faturaram mais de R$ 1000,00:")
-
     for (let checkout of checkouts) {
-        if (checkout.acomodacao.calcularTotal(checkout.dias) > 1000) {
-            console.log(checkout.acomodacao.exibir(checkout.dias))
+        let valorTotal: number = checkout.acomodacao.calcularTotal(checkout.dias)
+
+        if (valorTotal > 1000) {
+            alert(`Quarto: ${checkout.acomodacao.numeroQuarto} | Valor total: R$${valorTotal.toFixed(2)}`)
         }
     }
 }
