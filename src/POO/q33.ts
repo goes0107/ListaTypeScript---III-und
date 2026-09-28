@@ -4,7 +4,6 @@
 // Ao final, o sistema soma e exibe o total das multas.
 
 export function questao33POO(): void {
-
     abstract class Obra {
         private _titulo: string
         private _autor: string

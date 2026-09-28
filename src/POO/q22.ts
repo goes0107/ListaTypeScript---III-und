@@ -4,7 +4,6 @@
 // O sistema guarda os veículos em um array e consulta um veículo específico.
 
 export function questao22POO(): void {
-
     class Veiculo {
         private _placa: string
         private _quilometragemAtual: number

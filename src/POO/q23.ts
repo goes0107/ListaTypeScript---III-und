@@ -4,7 +4,6 @@
 // não sofrem alteração de valor.
 
 export function questao23POO(): void {
-
     class Produto {
         private _codigo: string
         private _nome: string
@@ -51,7 +50,6 @@ export function questao23POO(): void {
             if (this.dataValidade == dataAtual) {
                 valorFinal = this.precoCusto * 0.70
             }
-
             return valorFinal
         }
     }

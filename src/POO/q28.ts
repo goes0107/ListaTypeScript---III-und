@@ -4,7 +4,6 @@
 // de R$ 1.000,00.
 
 export function questao28POO(): void {
-
     class Acomodacao {
         private _numeroQuarto: number
         private _precoDiaria: number

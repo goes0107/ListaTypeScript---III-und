@@ -4,7 +4,6 @@
 // O sistema valida os dados, armazena os equipamentos em um array e exibe as fichas ao final.
 
 export function questao27POO(): void {
-
     class Equipamento {
         private _tombamento: number
         private _descricao: string

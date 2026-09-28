@@ -3,7 +3,6 @@
 // de desconto. O programa cadastra as passagens em um array e calcula o faturamento total do dia.
 
 export function questao30POO(): void {
-
     class Passagem {
         private _nome: string
         private _cpf: string

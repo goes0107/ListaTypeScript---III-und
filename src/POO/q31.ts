@@ -4,7 +4,6 @@
 // e exibe os projetos com nota acima dela usando polimorfismo.
 
 export function questao31POO(): void {
-
     abstract class Projeto {
         private _titulo: string
         private _coordenador: string

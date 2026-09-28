@@ -3,7 +3,6 @@
 // Poupança possui rendimento de 1%. O sistema utiliza um menu repetitivo para movimentar a conta.
 
 export function questao26POO(): void {
-
     class Conta {
         private _nome: string
         private _saldo: number

@@ -3,7 +3,6 @@
 // Tarefa Pessoal inclui a prioridade. O programa permite cadastrar, concluir e listar tarefas pendentes.
 
 export function questao24POO(): void {
-
     class Tarefa {
         private _descricao: string
         private _concluida: boolean

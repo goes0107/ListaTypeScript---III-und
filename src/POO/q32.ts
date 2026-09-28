@@ -3,7 +3,6 @@
 // recebe 150 pontos. O sistema permite cadastrar jogadores, registrar missões e exibir a classificação.
 
 export function questao32POO(): void {
-
     class Jogador {
         private _nickname: string
         protected _pontuacao: number

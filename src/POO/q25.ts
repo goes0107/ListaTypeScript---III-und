@@ -4,7 +4,6 @@
 // e permite buscar um contrato pelo e-mail.
 
 export function questao25POO(): void {
-
     class Assinatura {
         private _email: string
         private _valorPlano: number

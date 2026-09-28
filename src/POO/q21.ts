@@ -6,7 +6,6 @@
 // O programa calcula a média das notas e lista, em ordem inversa, os projetos acima da média.
 
 export function questao21POO(): void {
-
     class Projeto {
         private _titulo: string
         private _coordenador: string

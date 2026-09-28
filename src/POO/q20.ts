@@ -8,7 +8,6 @@
 // faturamento total do estabelecimento.
 
 export function questao20POO(): void {
-
     class Pedido {
         private _numeroMesa: number
         private _valorIngredientes: number

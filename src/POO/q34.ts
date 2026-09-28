@@ -4,7 +4,6 @@
 // o sistema percorre os veículos e calcula o faturamento total.
 
 export function questao34POO(): void {
-
     abstract class Veiculo {
         private _placa: string
         private _horaEntrada: number

@@ -3,7 +3,6 @@
 // mas registram uma advertência virtual. Ao final, o sistema exibe o total de multas.
 
 export function questao29POO(): void {
-
     class Obra {
         private _titulo: string
         private _autor: string
