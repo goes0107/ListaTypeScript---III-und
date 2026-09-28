@@ -35,7 +35,6 @@ export function questao39POO(): void {
 
 
     class PedidoLocal extends Pedido {
-
         calcularTotal(): number {
             let valorTotal: number = this.valorBase * 1.10
             return valorTotal

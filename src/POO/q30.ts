@@ -36,15 +36,12 @@ export function questao30POO():void{
             return this.valorBase
         }
 
-        exibir(): string {
-            return `Nome: ${this.nome}
-    CPF: ${this.cpf}
-    Valor: R$ ${this.calcularValor().toFixed(2)}`
+        exibir(): void {
+            alert(`Nome: ${this.nome} CPF: ${this.cpf} Valor: R$ ${this.calcularValor().toFixed(2)}`)
         }
     }
 
     class PassagemEstudantil extends Passagem {
-
         calcularValor(): number {
             return this.getValorBase() * 0.5
         }
@@ -52,10 +49,9 @@ export function questao30POO():void{
 
     let passagens: Passagem[] = []
 
-    let resposta = "s"
+    let resposta: number = 0
 
-    while (resposta != "n") {
-
+    while (resposta != 2) {
         let tipo = Number(prompt("Tipo (1-Comum / 2-Estudantil): "))
 
         let nome: string = String(prompt("Nome: "))
@@ -70,18 +66,16 @@ export function questao30POO():void{
             passagens.push(new PassagemEstudantil(nome, cpf, valor))
         }
 
-        resposta = String(prompt("Deseja cadastrar outra passagem? (s/n): ")).toLowerCase()
+        resposta = Number(prompt("Deseja cadastrar outra passagem? (1 - Sim | 2 - Não): "))
     }
 
     let faturamento = 0
 
-    console.log("RELATÓRIO")
-
     for (let passagem of passagens) {
-        console.log(passagem.exibir())
+        passagem.exibir()
 
         faturamento += passagem.calcularValor()
     }
 
-    console.log("Faturamento do dia: R$", faturamento.toFixed(2))
+    alert(`Faturamento do dia: R$${faturamento.toFixed(2)}`)
 }
