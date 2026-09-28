@@ -1,101 +1,102 @@
-// 33. Crie um sistema de gestão de empréstimos para a biblioteca do campus. A superclasse abstrata Obra possui os
-// atributos privados titulo e autor, e declara o método abstrato registrarAtraso(diasDeAtraso) que deve ser
-// sobrescrito pelas subclasses. LivroFisico calcula uma multa de R$ 2,50 por dia, enquanto ArtigoDigital não gera
-// multa, mas registra uma string de advertência ao usuário. O bibliotecário informa continuamente o título e os dias
-// de atraso de cada devolução. O sistema chama registrarAtraso() polimorficamente para cada objeto e, ao encerrar,
-// exibe o valor total de multas a ser recolhido pela biblioteca.
-// Requisitos mínimos:
-// • Superclasse abstrata Obra com método abstrato registrarAtraso(dias).
-// • LivroFisico retorna valor de multa; ArtigoDigital retorna mensagem de advertência.
-// • Atributos titulo e autor privados, acessíveis apenas por getters.
+// 33. Gestão de Empréstimos para Biblioteca
+// A superclasse abstrata Obra possui título e autor privados e o método abstrato registrarAtraso().
+// LivroFisico calcula multa de R$ 2,50 por dia. ArtigoDigital registra uma advertência virtual.
+// Ao final, o sistema soma e exibe o total das multas.
 
-// • Polimorfismo: percorrer lista com tipo Obra e chamar registrarAtraso().
-// • Acumular e exibir total de multas ao final.
+export function questao33POO(): void {
 
-export function questao33POO():void{
-    class Obra {
-        titulo: string
-        autor: string
+    abstract class Obra {
+        private _titulo: string
+        private _autor: string
 
         constructor(titulo: string, autor: string) {
-            this.titulo = titulo
-            this.autor = autor
+            this._titulo = titulo
+            this._autor = autor
         }
 
-        calcularPenalidade(dias: number): number {
-            return 0
+        get titulo(): string {
+            return this._titulo
         }
 
-        exibir(dias: number): string {
-            return `Título: ${this.titulo}
-            Autor: ${this.autor}
-            Dias de atraso: ${dias}`
+        get autor(): string {
+            return this._autor
         }
+
+        abstract registrarAtraso(diasDeAtraso: number): number | string
     }
 
     class LivroFisico extends Obra {
-
-        calcularPenalidade(dias: number): number {
-            return dias * 2.5
-        }
-
-        exibir(dias: number): string {
-            return `${super.exibir(dias)}
-            Multa: R$ ${this.calcularPenalidade(dias).toFixed(2)}`
+        registrarAtraso(diasDeAtraso: number): number {
+            let multa: number = diasDeAtraso * 2.5
+            return multa
         }
     }
 
     class ArtigoDigital extends Obra {
-
-        exibir(dias: number): string {
-            return `${super.exibir(dias)}
-            Advertência virtual registrada.`
+        registrarAtraso(diasDeAtraso: number): string {
+            return "Advertência virtual registrada."
         }
     }
 
     class Emprestimo {
-        obra: Obra
-        dias: number
+        private _obra: Obra
+        private _diasDeAtraso: number
 
-        constructor(obra: Obra, dias: number) {
-            this.obra = obra
-            this.dias = dias
+        constructor(obra: Obra, diasDeAtraso: number) {
+            this._obra = obra
+            this._diasDeAtraso = diasDeAtraso
+        }
+
+        get obra(): Obra {
+            return this._obra
+        }
+
+        get diasDeAtraso(): number {
+            return this._diasDeAtraso
         }
     }
 
     let emprestimos: Emprestimo[] = []
+    let op: number = 0
 
-    let resposta = "s"
-    let totalMultas = 0
+    while (op != 2) {
+        let tipo: number = Number(prompt(`Qual é o tipo da obra? (1 - Livro físico | 2 - Artigo digital): `))
+        let titulo: string = String(prompt(`Insira o título da obra: `))
+        let autor: string = String(prompt(`Insira o autor da obra: `))
+        let diasDeAtraso: number = Number(prompt(`Insira os dias de atraso: `))
 
-    while (resposta != "n") {
-
-        let tipo = Number(prompt("Tipo (1-Livro / 2-Artigo): "))
-
-        let titulo: string = String(prompt("Título: "))
-        let autor: string = String(prompt("Autor: "))
-        let dias: number = Number(prompt("Dias de atraso: "))
-
-        if (tipo == 1) {
-            let livro = new LivroFisico(titulo, autor)
-            emprestimos.push(new Emprestimo(livro, dias))
+        switch (tipo) {
+            case 1:
+                let livro: LivroFisico = new LivroFisico(titulo, autor)
+                let emprestimoLivro: Emprestimo = new Emprestimo(livro, diasDeAtraso)
+                emprestimos.push(emprestimoLivro)
+                break
+            case 2:
+                let artigo: ArtigoDigital = new ArtigoDigital(titulo, autor)
+                let emprestimoArtigo: Emprestimo = new Emprestimo(artigo, diasDeAtraso)
+                emprestimos.push(emprestimoArtigo)
+                break
+            default:
+                alert(`Insira uma opção válida!`)
+                break
         }
 
-        if (tipo == 2) {
-            let artigo = new ArtigoDigital(titulo, autor)
-            emprestimos.push(new Emprestimo(artigo, dias))
+        op = Number(prompt(`Deseja cadastrar outro empréstimo? (1 - Sim | 2 - Não): `))
+    }
+
+    let totalMultas: number = 0
+
+    for (let emprestimo of emprestimos) {
+        let resultado: number | string = emprestimo.obra.registrarAtraso(emprestimo.diasDeAtraso)
+
+        if (typeof resultado == "number") {
+            totalMultas += resultado
+            alert(`Título: ${emprestimo.obra.titulo} | Autor: ${emprestimo.obra.autor} | Multa: R$${resultado.toFixed(2)}`)
         }
-
-        resposta = String(prompt("Deseja cadastrar outro empréstimo? (s/n): ")).toLowerCase()
+        else {
+            alert(`Título: ${emprestimo.obra.titulo} | Autor: ${emprestimo.obra.autor} | ${resultado}`)
+        }
     }
 
-    console.log("REGISTROS")
-
-    for (let item of emprestimos) {
-        console.log(item.obra.exibir(item.dias))
-
-        totalMultas += item.obra.calcularPenalidade(item.dias)
-    }
-
-    console.log(`Total de multas: R$ ${totalMultas.toFixed(2)}`)
+    alert(`Total de multas: R$${totalMultas.toFixed(2)}`)
 }
