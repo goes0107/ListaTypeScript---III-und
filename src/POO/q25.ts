@@ -1,111 +1,108 @@
 // 25. Aplicativo de Streaming e Assinaturas de Vídeo
-// Um provedor de internet quer lançar um serviço de streaming de vídeo. Cada assinatura possui o e-
-// mail do usuário e o valor do plano mensal. A Assinatura Padrão dá direito a 2 telas simultâneas. A
-// Assinatura Premium dá direito a 4 telas e inclui suporte à resolução 4K. O sistema deve pedir para o
-// atendente cadastrar novos clientes e selecionar seus planos correspondentes em um loop. Com os
-// dados salvos em uma lista de contratos, o programa deve permitir fazer uma busca pelo e-mail do
-// usuário e exibir o contrato detalhado formatado dinamicamente, revelando os benefícios e o preço
-// correto do plano escolhido por meio de polimorfismo.
+// Cada assinatura possui e-mail e valor do plano. A Assinatura Padrão possui 2 telas simultâneas.
+// A Assinatura Premium possui 4 telas e resolução 4K. O sistema cadastra as assinaturas em um array
+// e permite buscar um contrato pelo e-mail.
 
-export function questao25POO():void{
+export function questao25POO(): void {
+
     class Assinatura {
-        private email: string
-        private valorPlano: number
+        private _email: string
+        private _valorPlano: number
 
         constructor(email: string, valorPlano: number) {
-            this.email = email
-            this.valorPlano = valorPlano
+            this._email = email
+            this._valorPlano = valorPlano
         }
 
-        public getEmail(): string {
-            return this.email
+        get email(): string {
+            return this._email
         }
 
-        public getValorPlano(): number {
-            return this.valorPlano
+        get valorPlano(): number {
+            return this._valorPlano
         }
 
-        public exibirDetalhes(): string {
-            return `Email: ${this.email}, Valor do Plano: R$ ${this.valorPlano.toFixed(2)}`
+        exibirDetalhes(): void {
+            alert(`Email: ${this.email} | Valor do plano: R$${this.valorPlano.toFixed(2)}`)
         }
-
     }
 
     class AssinaturaPadrao extends Assinatura {
-        private telasSimultaneas: number = 2
+        private _telasSimultaneas: number
 
         constructor(email: string, valorPlano: number) {
             super(email, valorPlano)
+            this._telasSimultaneas = 2
         }
 
-        public getTelasSimultaneas(): number {
-            return this.telasSimultaneas
+        get telasSimultaneas(): number {
+            return this._telasSimultaneas
         }
 
-        public exibirDetalhes(): string {
-            return `${super.exibirDetalhes()}, Telas Simultâneas: ${this.telasSimultaneas}`
+        exibirDetalhes(): void {
+            alert(`Email: ${this.email} | Valor do plano: R$${this.valorPlano.toFixed(2)} | Telas simultâneas: ${this.telasSimultaneas}`)
         }
     }
 
     class AssinaturaPremium extends Assinatura {
-        private telasSimultaneas: number = 4
-        private resolucao4K: boolean = true
+        private _telasSimultaneas: number
+        private _resolucao4K: boolean
 
         constructor(email: string, valorPlano: number) {
             super(email, valorPlano)
+            this._telasSimultaneas = 4
+            this._resolucao4K = true
         }
 
-        public getTelasSimultaneas(): number {
-            return this.telasSimultaneas
+        get telasSimultaneas(): number {
+            return this._telasSimultaneas
         }
 
-        public getResolucao4K(): boolean {
-            return this.resolucao4K
+        get resolucao4K(): boolean {
+            return this._resolucao4K
         }
 
-        public exibirDetalhes(): string {
-            return `${super.exibirDetalhes()}, Telas Simultâneas: ${this.telasSimultaneas}, Resolução 4K: ${this.resolucao4K}`
+        exibirDetalhes(): void {
+            alert(`Email: ${this.email} | Valor do plano: R$${this.valorPlano.toFixed(2)} | Telas simultâneas: ${this.telasSimultaneas} | Resolução 4K: Sim`)
         }
     }
 
     let assinaturas: Assinatura[] = []
+    let op: number = 0
 
-    let resposta: string = ''
+    while (op != 2) {
+        let tipoAssinatura: number = Number(prompt(`Qual é o tipo da assinatura? (1 - Padrão | 2 - Premium): `))
+        let email: string = String(prompt(`Insira o e-mail do cliente: `))
+        let valorPlano: number = Number(prompt(`Insira o valor do plano: `))
 
-    while (resposta.toLowerCase() !== 'n') {
-        let tipoAssinatura: number = Number(prompt('Digite o tipo de tarefa (1-padrão/2-premium): '))
-
-        if (tipoAssinatura == 1) {
-            let email: string = String(prompt("Email: "))
-            let valor: number = Number(prompt("Valor do plano: "))
-
-            let assinatura = new AssinaturaPadrao(email, valor)
-            assinaturas.push(assinatura)
+        switch (tipoAssinatura) {
+            case 1:
+                let assinaturaPadrao: AssinaturaPadrao = new AssinaturaPadrao(email, valorPlano)
+                assinaturas.push(assinaturaPadrao)
+                break
+            case 2:
+                let assinaturaPremium: AssinaturaPremium = new AssinaturaPremium(email, valorPlano)
+                assinaturas.push(assinaturaPremium)
+                break
+            default:
+                alert(`Insira uma opção válida!`)
+                break
         }
 
-        if (tipoAssinatura == 2) {
-            let email: string = String(prompt("Email: "))
-            let valor: number = Number(prompt("Valor do plano: "))
-
-            let assinatura = new AssinaturaPremium(email, valor)
-            assinaturas.push(assinatura)
-        }
-
-        resposta = String(prompt('Deseja cadastrar um novo cliente? (s/n): ')).toLowerCase()
+        op = Number(prompt(`Deseja cadastrar outra assinatura? (1 - Sim | 2 - Não): `))
     }
-    let busca: string = String(prompt("Digite o e-mail para buscar: "))
 
+    let emailBusca: string = String(prompt(`Insira o e-mail que deseja buscar: `))
     let encontrou: boolean = false
 
     for (let assinatura of assinaturas) {
-        if (assinatura.getEmail() == busca) {
-            console.log("Contrato encontrado:")
-            console.log(assinatura.exibirDetalhes())
+        if (assinatura.email == emailBusca) {
+            assinatura.exibirDetalhes()
             encontrou = true
         }
     }
 
-    if (!encontrou) {
-        console.log("Assinatura não encontrada.")
+    if (encontrou == false) {
+        alert(`Assinatura não encontrada!`)
     }
 }
