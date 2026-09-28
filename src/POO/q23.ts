@@ -1,92 +1,98 @@
 // 23. Cadastro de Produtos de um Supermercado com Desconto Progressivo
-// Um mercado de atacado precisa atualizar os preços de suas mercadorias nas prateleiras. Todo produto
-// possui código, nome e preço de custo ocultados do acesso externo direto. Os Produtos Perecíveis
-// possuem uma data de validade e recebem um desconto de 30% caso estejam no dia do vencimento. Os
-// Produtos Não Perecíveis não sofrem alteração de valor. O sistema deve interagir com o gerente para
-// listar os produtos do estoque. Após preencher o estoque (array), o programa deve rodar um loop que
-// simula a passagem do caixa, aplicando as regras de desconto conforme o tipo do produto e exibindo o
-// valor final que o cliente pagará.
+// Todo produto possui código, nome e preço de custo privados. Produtos Perecíveis possuem data de
+// validade e recebem 30% de desconto caso estejam no dia do vencimento. Produtos Não Perecíveis
+// não sofrem alteração de valor.
 
-export function questao23POO():void{
+export function questao23POO(): void {
+
     class Produto {
-        private codigo: string
-        private nome: string
-        private precoCusto: number
+        private _codigo: string
+        private _nome: string
+        private _precoCusto: number
 
         constructor(codigo: string, nome: string, precoCusto: number) {
-            this.codigo = codigo
-            this.nome = nome
-            this.precoCusto = precoCusto
+            this._codigo = codigo
+            this._nome = nome
+            this._precoCusto = precoCusto
         }
 
-        public getCodigo(): string {
-            return this.codigo
+        get codigo(): string {
+            return this._codigo
         }
 
-        public getNome(): string {
-            return this.nome
+        get nome(): string {
+            return this._nome
         }
 
-        public getPrecoCusto(): number {
+        get precoCusto(): number {
+            return this._precoCusto
+        }
+
+        calcularPrecoFinal(dataAtual: string): number {
             return this.precoCusto
         }
-
-        public calcularPrecoFinal(): number {
-            return this.precoCusto
-        }
-
     }
 
     class ProdutoPerecivel extends Produto {
-        private dataValidade: Date
+        private _dataValidade: string
 
-        constructor(codigo: string, nome: string, precoCusto: number, dataValidade: Date) {
+        constructor(codigo: string, nome: string, precoCusto: number, dataValidade: string) {
             super(codigo, nome, precoCusto)
-            this.dataValidade = dataValidade
+            this._dataValidade = dataValidade
         }
 
-        public calcularPrecoFinal(): number {
-            const hoje: Date = new Date()
-            if (this.dataValidade.toDateString() === hoje.toDateString()) {
-                return this.getPrecoCusto() * 0.7
+        get dataValidade(): string {
+            return this._dataValidade
+        }
+
+        calcularPrecoFinal(dataAtual: string): number {
+            let valorFinal: number = this.precoCusto
+
+            if (this.dataValidade == dataAtual) {
+                valorFinal = this.precoCusto * 0.70
             }
-            return this.getPrecoCusto()
+
+            return valorFinal
         }
     }
 
     class ProdutoNaoPerecivel extends Produto {
-        constructor(codigo: string, nome: string, precoCusto: number) {
-            super(codigo, nome, precoCusto)
+        calcularPrecoFinal(dataAtual: string): number {
+            return this.precoCusto
         }
-
-        public calcularPrecoFinal(): number {
-            return this.getPrecoCusto()
-        }
-
     }
 
     let estoque: Produto[] = []
+    let op: number = 0
 
-    let resposta: string = ''
+    while (op != 2) {
+        let tipoProduto: number = Number(prompt(`Qual é o tipo do produto? (1 - Perecível | 2 - Não perecível): `))
+        let codigo: string = String(prompt(`Insira o código do produto: `))
+        let nome: string = String(prompt(`Insira o nome do produto: `))
+        let precoCusto: number = Number(prompt(`Insira o preço de custo do produto: `))
 
-    while (resposta.toLowerCase() !== 'n') {
-        let tipoProduto: number = Number(prompt('Digite o tipo de produto (1-perecível/2-não perecível): '))
-        let codigo: string = String(prompt('Digite o código do produto: '))
-        let nome: string = String(prompt('Digite o nome do produto: '))
-        let precoCusto: number = Number(prompt('Digite o preço de custo do produto: '))
-
-        if (tipoProduto === 1) {
-            let dataValidade: Date = new Date(String(prompt('Digite a data de validade (DD-MM-AAAA): ')))
-            estoque.push(new ProdutoPerecivel(codigo, nome, precoCusto, dataValidade))
-        } else if (tipoProduto === 2) {
-            estoque.push(new ProdutoNaoPerecivel(codigo, nome, precoCusto))
+        switch (tipoProduto) {
+            case 1:
+                let dataValidade: string = String(prompt(`Insira a data de validade (DD/MM/AAAA): `))
+                let produtoPerecivel: ProdutoPerecivel = new ProdutoPerecivel(codigo, nome, precoCusto, dataValidade)
+                estoque.push(produtoPerecivel)
+                break
+            case 2:
+                let produtoNaoPerecivel: ProdutoNaoPerecivel = new ProdutoNaoPerecivel(codigo, nome, precoCusto)
+                estoque.push(produtoNaoPerecivel)
+                break
+            default:
+                alert(`Insira uma opção válida!`)
+                break
         }
 
-        resposta = String(prompt('Deseja adicionar mais produtos? (s/n): ')).toLowerCase()
+        op = Number(prompt(`Deseja cadastrar outro produto? (1 - Sim | 2 - Não): `))
     }
 
-    console.log('Relatório de Produtos:')
+    let dataAtual: string = String(prompt(`Insira a data de hoje (DD/MM/AAAA): `))
+
     for (let produto of estoque) {
-        console.log(`Código: ${produto.getCodigo()}, Nome: ${produto.getNome()}, Preço Final: R$ ${produto.calcularPrecoFinal().toFixed(2)}`)
+        let precoFinal: number = produto.calcularPrecoFinal(dataAtual)
+        alert(`Código: ${produto.codigo} | Produto: ${produto.nome} | Preço final: R$${precoFinal.toFixed(2)}`)
     }
 }
