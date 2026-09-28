@@ -1,98 +1,98 @@
-// 31. O projeto socioambiental &quot;Flor&amp;Ser&quot; abriu inscrições para propostas de reflorestamento no campus do IFS Tobias
-// Barreto. Crie a superclasse Projeto com os atributos privados titulo, coordenador e nota. O setter setNota(valor)
-// deve validar estritamente o intervalo de 0 a 10, lançando exceção ou mensagem de erro para valores inválidos. As
-// subclasses ProjetoVerde (plantio urbano) e ProjetoCultural (conscientização) sobrescrevem o método
-// descricaoCategoria() com textos distintos. O usuário preenche os projetos pelo terminal. O programa calcula a
-// média das notas e, ao final, exibe os projetos com nota acima da média, mostrando a categoria de cada um via
-// polimorfismo.
-// Requisitos mínimos:
-// • nota privada com validação estrita no setter (0 ≤ nota ≤ 10).
-// • descricaoCategoria() abstrato/sobrescrito em ProjetoVerde e ProjetoCultural.
-// • Cálculo de média com laço sobre os projetos cadastrados.
-// • Filtro e exibição dos projetos acima da média.
-// • Chamada polimórfica a descricaoCategoria() na exibição final.
+// 31. Projeto Flor&Ser
+// A superclasse Projeto possui título, coordenador e nota privados. A nota deve ser validada entre 0 e 10.
+// ProjetoVerde e ProjetoCultural sobrescrevem descricaoCategoria(). Ao final, o programa calcula a média
+// e exibe os projetos com nota acima dela usando polimorfismo.
 
-export function questao31POO():void{
-    class Projeto {
-    private titulo: string
-    private coordenador: string
-    private nota: number
+export function questao31POO(): void {
 
-    constructor(titulo: string, coordenador: string, nota: number) {
-        this.titulo = titulo
-        this.coordenador = coordenador
-        this.nota = nota
-    }
+    abstract class Projeto {
+        private _titulo: string
+        private _coordenador: string
+        private _nota: number
 
-    getTitulo(): string {
-        return this.titulo
-    }
-
-    getCoordenador(): string {
-        return this.coordenador
-    }
-
-    getNota(): number {
-        return this.nota
-    }
-
-    setNota(nota: number): void {
-        if (nota >= 0 && nota <= 10) {
-        this.nota = nota
-        } else {
-        console.error("Nota inválida. Deve estar entre 0 e 10.")
+        constructor(titulo: string, coordenador: string, nota: number) {
+            this._titulo = titulo
+            this._coordenador = coordenador
+            this._nota = 0
+            this.nota = nota
         }
-    }
+
+        get titulo(): string {
+            return this._titulo
+        }
+
+        get coordenador(): string {
+            return this._coordenador
+        }
+
+        get nota(): number {
+            return this._nota
+        }
+
+        set nota(nota: number) {
+            if (nota >= 0 && nota <= 10) {
+                this._nota = nota
+            }
+            else {
+                alert(`Nota inválida! A nota deve estar entre 0 e 10.`)
+            }
+        }
+
+        abstract descricaoCategoria(): string
     }
 
     class ProjetoVerde extends Projeto {
-    descricaoCategoria(): string {
-        return "Projeto Verde: Focado em plantio urbano."
-    } 
+        descricaoCategoria(): string {
+            return "Projeto Verde - Plantio urbano"
+        }
     }
 
     class ProjetoCultural extends Projeto {
-    descricaoCategoria(): string {
-        return "Projeto Cultural: Focado em conscientização."
-    }
+        descricaoCategoria(): string {
+            return "Projeto Cultural - Conscientização"
+        }
     }
 
     let projetos: Projeto[] = []
+    let op: number = 0
 
-    let resposta: string = ''
+    while (op != 2) {
+        let tipo: number = Number(prompt(`Qual é o tipo do projeto? (1 - Projeto Verde | 2 - Projeto Cultural): `))
+        let titulo: string = String(prompt(`Insira o título do projeto: `))
+        let coordenador: string = String(prompt(`Insira o coordenador do projeto: `))
+        let nota: number = Number(prompt(`Insira a nota do projeto: `))
 
-    while (resposta.toLowerCase() !== 'n') {
-        let titulo: string = String(prompt('Insira o título do projeto: '))
-        let coordenador: string = String(prompt('Insira o nome do coordenador: '))
-        let nota: number = Number(prompt('Insira a nota do projeto (0 a 10): '))
-
-        let tipo: number = Number(prompt('Insira o tipo de projeto (1-Verde/2-Cultural): '))
-
-        let newProjeto: Projeto
-
-        if (tipo === 1) {
-            newProjeto = new ProjetoVerde(titulo, coordenador, nota)
-            projetos.push(newProjeto)
-        } else if (tipo === 2) {
-            newProjeto = new ProjetoCultural(titulo, coordenador, nota)
-            projetos.push(newProjeto)
+        switch (tipo) {
+            case 1:
+                let projetoVerde: ProjetoVerde = new ProjetoVerde(titulo, coordenador, nota)
+                projetos.push(projetoVerde)
+                break
+            case 2:
+                let projetoCultural: ProjetoCultural = new ProjetoCultural(titulo, coordenador, nota)
+                projetos.push(projetoCultural)
+                break
+            default:
+                alert(`Insira uma opção válida!`)
+                break
         }
 
-        resposta = String(prompt('Deseja cadastrar outro projeto? (s/n): ')).toLowerCase()
+        op = Number(prompt(`Deseja cadastrar outro projeto? (1 - Sim | 2 - Não): `))
     }
 
     let somaNotas: number = 0
+
     for (let projeto of projetos) {
-        somaNotas += projeto.getNota()
+        somaNotas += projeto.nota
     }
 
-    let mediaNotas: number = somaNotas / projetos.length
+    if (projetos.length > 0) {
+        let media: number = somaNotas / projetos.length
+        alert(`Média das notas: ${media.toFixed(2)}`)
 
-    console.log(`Média das notas: ${mediaNotas.toFixed(2)}`)
-    console.log('Projetos com nota acima da média (em ordem inversa):')
-    for (let i = projetos.length - 1; i >= 0; i--) {
-        if (projetos[i].getNota() > mediaNotas) {
-            console.log(`Título: ${projetos[i].getTitulo()}, Coordenador: ${projetos[i].getCoordenador()}, Nota: ${projetos[i].getNota()}`)
+        for (let projeto of projetos) {
+            if (projeto.nota > media) {
+                alert(`Título: ${projeto.titulo} | Coordenador: ${projeto.coordenador} | Nota: ${projeto.nota} | Categoria: ${projeto.descricaoCategoria()}`)
+            }
         }
     }
 }
